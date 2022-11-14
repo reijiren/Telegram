@@ -1,0 +1,43 @@
+.pContainer{
+    background-color: #F6F7F8;
+}
+
+.card{
+    width: 350px;
+    z-index: 10;
+}
+
+.bgUser{
+    position: absolute;
+    width: 100%;
+    height: 30vh;
+}
+
+.content{
+    width: 750px;
+    z-index: 10;
+}
+
+.porto{
+    font-size: 20px;
+    color: #9EA0A5;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+.active{
+    font-weight: 500;
+    color: black;
+    border-bottom: 5px solid #5E50A1;
+    border-radius: 5px 5px;
+}
+
+.skill{
+    height: 40px;
+    width: 600px;
+}
+
+.submit{
+    border: 1px solid #FBB017;
+    font-weight: 600;
+}
