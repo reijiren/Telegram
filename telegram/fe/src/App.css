@@ -1,0 +1,68 @@
+@font-face {
+  font-family: rubik;
+  src: url('../public/Rubik-Regular.ttf');
+}
+
+body{
+  font-family: 'rubik';
+  font-size: 16px;
+}
+
+hr{
+  border-top: 0.1px solid;
+  width: 100%;
+}
+
+a:-webkit-any-link{
+  text-decoration: none;
+}
+
+.bg-gray{
+  background-color: #F6F6F6;
+}
+
+.bg-blue{
+  background-color: #7E98DF;
+}
+
+.text-blue{
+  color: #7E98DF;
+}
+
+.text-gray{
+  color: #848484;
+}
+
+.login-container{
+  width: 400px;
+  min-height: 70vh;
+  margin: 5rem 0;
+  padding: 2rem 3rem;
+  border-radius: 2rem;
+}
+
+.login-input{
+  border: none;
+  border-bottom: 1px solid black;
+  height: 30px;
+}
+
+.btn-primary{
+  height: 40px;
+  background-color: #7E98DF;
+  border: none;
+  border-radius: 25px 25px 25px 25px;
+}
+
+.btn-secondary{
+  height: 40px;
+  color: #7E98DF;
+  background-color: white;
+  border: 1px solid #7E98DF;
+  border-radius: 25px 25px 25px 25px;
+}
+
+.btn-secondary:hover{
+  border: 1px solid #0062cc;
+  background-color: #0069d9;
+}
