@@ -91,7 +91,7 @@ export default function Profile() {
                     <button type="button" className="btn bg-blue text-white my-1" onClick={edit}>Cancel</button>
                 </div>
             </form>
-            <div className="flex-column" style={{display: !toggleEdit ? 'flex' : 'none'}}>
+            <div className="flex-column my-2" style={{display: !toggleEdit ? 'flex' : 'none'}}>
                 <h5><b>Settings</b></h5>
                 <div className="d-flex flex-row w-100 justify-content-between align-items-center text-blue pointer py-2" onClick={edit}>
                     <FontAwesomeIcon icon={faPencil} />

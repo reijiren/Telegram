@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAlignLeft, faAngleLeft, faBookmark, faCog, faMagnifyingGlass, faPhone, faQuestionCircle, faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAlignLeft, faAngleLeft, faBookmark, faCog, faDoorOpen, faMagnifyingGlass, faPhone, faQuestionCircle, faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import {Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { allChat, reset } from "../redux/action/chat";
-import { findUser, selectReceiver } from "../redux/action/user";
+import { findUser, resetUser, selectReceiver } from "../redux/action/user";
 import Profile from "./Profile";
+import { useNavigate } from "react-router-dom";
 
 export default function ChatList() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -18,6 +19,7 @@ export default function ChatList() {
     }
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const data = useSelector((state) => state.user);
     const user = data.user;
 
@@ -60,13 +62,20 @@ export default function ChatList() {
         }
     }, [])
 
+    const logout = () => {
+        dispatch(resetUser());
+        dispatch(reset());
+
+        navigate('/login');
+    }
+
     return (
         <div>
             <div className="chat-list bg-white px-3 pb-2 pt-3" style={{display: profile && 'none'}}>
                 <div className="d-flex flex-row justify-content-between align-items-center text-blue">
                     <h3><b>Telegram</b></h3>
                     <Dropdown toggle={toggle} isOpen={dropdownOpen}>
-                        <DropdownToggle><FontAwesomeIcon icon={faAlignLeft} /></DropdownToggle>
+                        <DropdownToggle className="p-1"><img src={`${process.env.REACT_APP_BACKEND_URL}/${user.image}`} className="rounded-circle" width={30} height={30} alt="" /></DropdownToggle>
                         <DropdownMenu id="dropdown-nav" end>
                             <DropdownItem id="dropdown-item" onClick={toggleProfile}><FontAwesomeIcon icon={faCog} />Settings</DropdownItem>
                             <DropdownItem id="dropdown-item"><FontAwesomeIcon icon={faUser} />Contacts</DropdownItem>
@@ -74,6 +83,7 @@ export default function ChatList() {
                             <DropdownItem id="dropdown-item"><FontAwesomeIcon icon={faBookmark} />Save Messages</DropdownItem>
                             <DropdownItem id="dropdown-item"><FontAwesomeIcon icon={faUserPlus} />Invite Friends</DropdownItem>
                             <DropdownItem id="dropdown-item"><FontAwesomeIcon icon={faQuestionCircle} />Telegram FAQ</DropdownItem>
+                            <DropdownItem id="dropdown-item" onClick={logout}><FontAwesomeIcon icon={faDoorOpen} />Logout</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                 </div>
@@ -103,6 +113,7 @@ export default function ChatList() {
                             </div>
                         )) :
                         listChat.length !== 0 ? 
+                        // listChat.map((e, i) => (
                         listChat.sort((a, b) => (a.id < b.id) ? 1 : ((b.id < a.id) ? -1 : 0)).map((e, i) => (
                             <div key={i} onClick={() => select(e)} className="d-flex flex-row justify-content-between align-items-center py-1 px-1" id="chat">
                                 <img src={`${process.env.REACT_APP_BACKEND_URL}/${e.image}`} className="rounded-circle img-fit" width={50} height={50} alt="" />

@@ -82,3 +82,9 @@ export const updateUserImg = (id, body, handleSuccess) => ({
         });
     }),
 })
+
+export const resetUser = () => {
+    return {
+        type: "RESET_USER",
+    }
+}

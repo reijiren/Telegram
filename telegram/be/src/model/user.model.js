@@ -105,7 +105,7 @@ const userModel = {
             case sender when ${user} then receiver else sender end as involved
             from chat c where c.sender = ${user} or c.receiver = ${user}) s
             join users u on s.involved = u.id_user
-            order by involved, date_time desc;
+            order by involved, s.id desc;
             `, (err, res) => {
                 if(err) reject(err);
                 resolve(res);
