@@ -1,6 +1,7 @@
 create table users(
     id_user serial primary key,
-    name varchar(30),
+    username varchar(30),
+    fullname varchar(30),
     email varchar(30) unique,
     phone varchar(15),
     password text,

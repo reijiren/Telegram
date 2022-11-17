@@ -1,4 +1,5 @@
 const userModel = require('../model/user.model');
+const chatModel = require('../model/chat.model');
 const { success, failed, successWithToken } = require('../helper/response');
 
 const bcrypt = require('bcrypt');
@@ -29,15 +30,26 @@ const userController = {
         })
     },
 
+    // find user by name
+    find: (req, res) => {
+        userModel.findName(req.body)
+        .then((result) => {
+            success(res, result.rows, 'success', `find user success`);
+        })
+        .catch((err) => {
+            failed(res, err.message, 'failed', `failed to find user`);
+        })
+    },
+
     // register
     register: (req, res) => {
         try{
-            const { name, email, password } = req.body;
+            const { fullname, email, password } = req.body;
             bcrypt.hash(password, 10, (err, hash) => {
                 if(err) failed(res, err.message, 'failed', 'failed to hash password');
 
                 const data = {
-                    name,
+                    fullname,
                     email,
                     password: hash,
                 }
@@ -115,10 +127,56 @@ const userController = {
         
         userModel.updateUser(data)
         .then((result) => {
-            success(res, result.rowCount, "success", "update user success");
+            userModel.selectUserId(id)
+            .then((result) => {
+                success(res, result.rows, "success", "update user success");
+            })
+            .catch((err) => {
+                failed(res, err.message, "failed", "failed to get user detail");
+            })
         })
         .catch((err) => {
             failed(res, err.message, "failed", "failed to update user");
+        });
+    },
+
+    // update photo
+    updatePhoto: async(req, res) => {
+        const id = req.params.id;
+        const img = req.file.filename;
+
+        await userModel.updatePhoto(id, img)
+        .then((result) => {
+            success(res, result.rowCount, "success", "update photo success");
+        })
+        .catch((err) => {
+            failed(res, err.message, "failed", "failed to update photo");
+        });
+    },
+
+    // user's chat list
+    allChat: (req, res) => {
+        const id = req.params.id;
+
+        userModel.listChat(id)
+        .then((result) => {
+            success(res, result.rows, "success", "get user's chat success");
+        })
+        .catch((err) => {
+            failed(res, err.message, "failed", "failed to get user's chat");
+        });
+    },
+
+    // delete chat
+    deleteChat: (req, res) => {
+        const id = req.params.id;
+
+        chatModel.delete(id)
+        .then((result) => {
+            success(res, result.rowCount, "success", "get user's chat success");
+        })
+        .catch((err) => {
+            failed(res, err.message, "failed", "failed to get user's chat");
         });
     },
 }

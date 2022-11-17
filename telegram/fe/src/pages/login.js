@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faGoogle} from '@fortawesome/free-brands-svg-icons';
 import { useDispatch } from 'react-redux';
 import { login } from "../redux/action/user";
+import { reset } from "../redux/action/chat";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -18,8 +19,8 @@ export default function Login() {
         e.preventDefault();
 
         const handleSuccess = (data) => {
-            console.log(data.data.status)
             if(data.data.status === 'success'){
+                dispatch(reset());
                 localStorage.setItem('token', data.data.token);
                 navigate('/');
             }else{

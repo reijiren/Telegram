@@ -37,12 +37,24 @@ const userModel = {
         });
     },
 
+    // find user fullname
+    findName: (data) => {
+        return new Promise((resolve, reject) => {
+            db.query(`
+            select * from users where fullname ilike '%${data.name}%' and id_user != ${data.id};
+            `, (err, res) => {
+                if(err) return reject(err);
+                resolve(res);
+            })
+        });
+    },
+
     // register
     insertUser: (data) => {
         return new Promise((resolve, reject) => {
             db.query(`
-            insert into users (name, email, password, image, date_created)
-            values ('${data.name}', '${data.email}', '${data.password}', 'default.png', now());
+            insert into users (fullname, email, password, image, date_created)
+            values ('${data.fullname}', '${data.email}', '${data.password}', 'default.png', now());
             `, (err, res) => {
                 if(err) return reject(err);
                 resolve(res);
@@ -55,21 +67,51 @@ const userModel = {
         return new Promise((resolve, reject) => {
 			db.query(
 			`
-			UPDATE users SET
-			name = COALESCE ($2, name),
-			phone = COALESCE ($3, phone),
-			password = COALESCE ($4, password),
-			image = COALESCE ($5, image),
-			bio = COALESCE ($6, bio)
-			WHERE id_user = $1
+            UPDATE users SET
+            fullname = COALESCE ($2, fullname),
+            username = COALESCE ($3, username),
+            phone = COALESCE ($4, phone),
+            password = COALESCE ($5, password),
+            image = COALESCE ($6, image),
+            bio = COALESCE ($7, bio)
+            WHERE id_user = $1
 			`,
-				[data.id, data.name, data.phone, data.password, data.image, data.bio],
+				[data.id, data.fullname, data.username, data.phone, data.password, data.image, data.bio],
 				(err, res) => {
                     if(err) return reject(err);
                     resolve(res);
 				});
 		});
-    }
+    },
+
+    // update photo
+    updatePhoto: (id, data) => {
+        return new Promise((resolve, reject) => {
+            db.query(`
+            update users set image = '${data}' where id_user = ${id};
+            `, (err, res) => {
+                if(err) return reject(err);
+                resolve(res);
+            })
+        })
+    },
+
+    // get chat
+    listChat: (user) => {
+        return new Promise((resolve, reject) => {
+            db.query(`
+            select distinct on (involved) involved as userid, s.id, s.chat_sender, u.fullname as name, content, date_time, u.image
+            from (select c.*, c.sender as chat_sender,
+            case sender when ${user} then receiver else sender end as involved
+            from chat c where c.sender = ${user} or c.receiver = ${user}) s
+            join users u on s.involved = u.id_user
+            order by involved, date_time desc;
+            `, (err, res) => {
+                if(err) reject(err);
+                resolve(res);
+            })
+        });
+    },
 }
 
 module.exports = userModel;
