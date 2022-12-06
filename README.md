@@ -1,6 +1,3 @@
-# Telegram - Messaging Application
-
-Telegram is a realtime messaging application to send text or files to another user. This application is developed using React JS, Express JS, Socket.IO and PostgreSQL. This application has implemented Redux to store data and to show the data on website interface.
 <br />
 <p align="center">
 
@@ -36,7 +33,7 @@ Telegram is a realtime messaging application to send text or files to another us
 ## About The Project
 
 
-Hirejob is an application for job seekers and post their professional background such as job experience and portfolio. There are 2 types of users: Workers and Recruiters. Workers are able to post their job Experience and Portfolio on their profile, and Recruiters may contact any Workers for further hiring information. Hirejob is developed using Next JS Framework in Frontend, Express JS for API, and PostgreSQL for Database.
+Telegram is a realtime chat application. Users are able to find other user contacts and send messages and files to them. Users might take a look at their profile information, such as bio, email and photo profile. Telegram is developed using React JS in Frontend, Express JS for API, and PostgreSQL for Database.
 
 
 ### Built With
